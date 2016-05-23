@@ -1,4 +1,4 @@
-import json, argparse, os.path, random, sys, subprocess, zipfile, os
+import json, argparse, os.path, random, sys, subprocess, zipfile, os, shutil
 parser = argparse.ArgumentParser()
 parser.add_argument("version")
 parser.add_argument("--mcdir", dest="mcdir", default=os.path.expanduser("~")+"/.minecraft")
@@ -13,7 +13,7 @@ h = open(ns.mcdir+"/versions/"+ns.version+"/"+ns.version+".json")
 j = json.load(h)
 h.close()
 classpath = ns.mcdir+"/versions/"+ns.version+"/"+ns.version+".jar"
-nativesdir = ns.mcdir+"/versions/"+ns.version+"/"+ns.version+"-natives-"+str(random.randrange(1000))
+nativesdir = ns.mcdir+"/versions/"+ns.version+"/"+ns.version+"-natives-"+str(random.randrange(100000))
 os.mkdir(nativesdir)
 libraries = j["libraries"]
 tmp = j
@@ -80,3 +80,4 @@ for s in spl:
         args.append(res)
 print(" ".join(args))
 subprocess.call(args)
+shutil.rmtree(nativesdir)

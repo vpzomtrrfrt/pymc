@@ -61,7 +61,7 @@ srcargs = {
     "game_directory": ns.gamedir,
     "version_name": ns.version,
     "assets_root": ns.mcdir+"/assets",
-    "assets_index_name": j["assetIndex"]["id"],
+    "assets_index_name": j["assetIndex"]["id"] if "assetIndex" in j else j["assets"],
     "version_type": j["type"]
 }
 for s in spl:

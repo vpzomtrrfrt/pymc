@@ -1,10 +1,11 @@
-import json, argparse, os.path, random, sys, subprocess, zipfile, os, shutil
+import json, argparse, os.path, random, sys, subprocess, zipfile, os, shutil, shlex
 parser = argparse.ArgumentParser()
 parser.add_argument("version")
 parser.add_argument("--mcdir", dest="mcdir", default=os.path.expanduser("~")+"/.minecraft")
 parser.add_argument("--username", dest="username", default="Player"+str(random.randrange(1000)))
 parser.add_argument("--game-directory", dest="gamedir")
 parser.add_argument("--access-token", dest="token", default="no")
+parser.add_argument("--jvm-args", dest="jargs")
 ns = parser.parse_args()
 if ns.gamedir == None:
     ns.gamedir = ns.mcdir
@@ -53,7 +54,10 @@ for l in libraries:
             print("Could not find "+l["name"])
             print(path)
             exit()
-args = ["java", "-Djava.library.path="+nativesdir,"-cp", classpath, j["mainClass"]]
+args = ["java"]
+if ns.jargs != None:
+    args += shlex.split(ns.jargs)
+args += ["-Djava.library.path="+nativesdir,"-cp", classpath, j["mainClass"]]
 spl = j["minecraftArguments"][2:].split(" --")
 srcargs = {
     "auth_player_name": ns.username,

@@ -11,6 +11,8 @@ ns = parser.parse_args()
 if ns.gamedir == None:
     ns.gamedir = ns.mcdir
 platform = sys.platform
+if "win" in platform:
+    platform = "windows"
 h = open(ns.mcdir+os.sep+"versions"+os.sep+ns.version+os.sep+ns.version+".json")
 j = json.load(h)
 h.close()
